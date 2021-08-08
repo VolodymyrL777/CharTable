@@ -7,10 +7,10 @@ namespace CharTable
     {
         static void Main(string[] args)
         {
-            MyChar.ConsoleWriteChars(-10, 1000);
+            MyChar.ConsoleWriteChars(0, 1000);
             Console.WriteLine("\n==============\n");
 
-            MyChar.ConsoleWriteCharsLinq(-100, 1000, 7);
+            MyChar.ConsoleWriteCharsLinq(0, 1000, 7);
             Console.ReadLine();
         }
     }
