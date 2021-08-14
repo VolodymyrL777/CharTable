@@ -6,7 +6,26 @@ using System.Text;
 namespace CharTable.Utility
 {
     public static class MyChar
-    {      
+    {
+        private static readonly List<ConsoleColor> colors = new List<ConsoleColor> // список цветов консоли
+            {
+                ConsoleColor.DarkBlue,
+                ConsoleColor.DarkGreen,
+                ConsoleColor.DarkCyan,
+                ConsoleColor.DarkRed,
+                ConsoleColor.DarkMagenta,
+                ConsoleColor.DarkYellow,
+                ConsoleColor.Gray,
+                ConsoleColor.DarkGray,
+                ConsoleColor.Blue,
+                ConsoleColor.Green,
+                ConsoleColor.Cyan,
+                ConsoleColor.Red,
+                ConsoleColor.Magenta,
+                ConsoleColor.Yellow,
+                ConsoleColor.White
+            };
+
         /// <summary>
         /// Выводит на экран таблицу символов с заданным количеством столбцов по заданному диапазону кодов.
         /// </summary>
@@ -15,7 +34,9 @@ namespace CharTable.Utility
         /// <param name="columnNumber">Количество столбцов. По умолчанию - 4.</param>
         public static void ConsoleWriteChars(int startCharCode, int endCharCode, int columnNumber = 4)
         {
-            short counter = 0; // счётчик столбцов
+            short columnCounter = 0; // счётчик столбцов
+
+            Console.OutputEncoding = Encoding.Unicode; // кодировка символов
 
             try
             {
@@ -23,14 +44,12 @@ namespace CharTable.Utility
                 {
                     var str = (char)i + "\t";
 
-                    if (++counter == columnNumber)
+                    if (++columnCounter == columnNumber)
                     {
-                        counter = 0; // обнуление счётчика
+                        columnCounter = 0; // обнуление счётчика
                         str += "\n";
                     }
-
-                    Console.OutputEncoding = Encoding.Unicode; // кодировка символов
-                                      
+                    
                     ChangeColor(); // изменение цвета символов
                     Console.Write(str); // вывод символа на экран
                     Console.ResetColor(); // сброс цвета символов до значения по умолчанию
@@ -38,7 +57,7 @@ namespace CharTable.Utility
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"[{DateTime.Now}]\tВ методе [ ConsoleWriteChars ]\t" + ex.Message);
             }
         }
 
@@ -50,16 +69,11 @@ namespace CharTable.Utility
         /// <param name="columnNumber">Количество столбцов. По умолчанию - 4.</param>
         public static void ConsoleWriteCharsLinq(int firstCharCode, int lastCharCode, int columnNumber = 4)
         {
-            var chars = new List<int>(lastCharCode);
-            
-            for (int i = 0; i <= lastCharCode; i++)
-            {
-                chars.Add(i); // создание списка кодов символов
-            }            
+            var listChars = Enumerable.Range(firstCharCode, lastCharCode + 1).ToList(); // формирование списка кодов в заданном диапазоне
 
-            var listChars = chars.Where(x => firstCharCode < x); // выбор символов в заданном диапазоне кодов
+            short columnCounter = 0; // счётчик столбцов
 
-            short counter = 0; // счётчик столбцов
+            Console.OutputEncoding = Encoding.Unicode; // кодировка символов 
 
             try
             {
@@ -67,13 +81,11 @@ namespace CharTable.Utility
                 {
                     var str = (char)item + "\t";
 
-                    if (++counter == columnNumber)
+                    if (++columnCounter == columnNumber)
                     {
-                        counter = 0; // обнуление счётчика
+                        columnCounter = 0; // обнуление счётчика
                         str += "\n";
                     }
-
-                    Console.OutputEncoding = Encoding.Unicode; // кодировка символов
 
                     ChangeColor();
                     Console.Write(str); // вывод символа на экран
@@ -82,7 +94,7 @@ namespace CharTable.Utility
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"[{DateTime.Now}]\tВ методе [ ConsoleWriteCharsLinq ]\t" + ex.Message);
             }
         }
 
@@ -91,17 +103,22 @@ namespace CharTable.Utility
         /// </summary>
         private static void ChangeColor() 
         {
-            Array colors = Enum.GetValues(typeof(ConsoleColor));   // формирование массива цветов консоли         
             Random random = new Random();
-            ConsoleColor randomColor = (ConsoleColor)colors.GetValue(random.Next(colors.Length));
 
-            if (randomColor == ConsoleColor.Black) 
+            int startIndex = 0;
+            int lastIndex = colors.Count;
+
+            try
             {
-                //Console.BackgroundColor = ConsoleColor.White; 
-                randomColor = ConsoleColor.White;
-            }
+                int randomValue = random.Next(startIndex, lastIndex);
+                ConsoleColor randomColor = colors[randomValue];
 
-            Console.ForegroundColor = randomColor;   // изменение цвета текста на случайный         
+                Console.ForegroundColor = randomColor;   // изменение цвета текста на случайный
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[{DateTime.Now}]\tВ методе [ ChangeColor ]\t" + ex.Message);
+            }
         }
     }
 }

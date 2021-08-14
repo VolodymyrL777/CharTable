@@ -8,7 +8,7 @@ namespace CharTable
         static void Main(string[] args)
         {
             MyChar.ConsoleWriteChars(0, 1000);
-            Console.WriteLine("\n==============\n");
+            Console.WriteLine();
 
             MyChar.ConsoleWriteCharsLinq(0, 1000, 7);
             Console.ReadLine();
