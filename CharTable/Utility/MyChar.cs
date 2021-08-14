@@ -26,6 +26,10 @@ namespace CharTable.Utility
                 ConsoleColor.White
             };
 
+        private static readonly Random random = new Random();
+        private static readonly int startColorIndex = 0;
+        private static readonly int lastColorIndex = colors.Count;
+
         /// <summary>
         /// Выводит на экран таблицу символов с заданным количеством столбцов по заданному диапазону кодов.
         /// </summary>
@@ -57,7 +61,7 @@ namespace CharTable.Utility
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[{DateTime.Now}]\tВ методе [ ConsoleWriteChars ]\t" + ex.Message);
+                Console.WriteLine($"[{DateTime.Now}]\tВ методе 'ConsoleWriteChars'\t{ex.Message}");
             }
         }
 
@@ -94,7 +98,7 @@ namespace CharTable.Utility
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[{DateTime.Now}]\tВ методе [ ConsoleWriteCharsLinq ]\t" + ex.Message);
+                Console.WriteLine($"[{DateTime.Now}]\tВ методе 'ConsoleWriteCharsLinq'\t{ex.Message}");
             }
         }
 
@@ -102,22 +106,17 @@ namespace CharTable.Utility
         /// Изменяет цвет текста, отображаемого в консоли.
         /// </summary>
         private static void ChangeColor() 
-        {
-            Random random = new Random();
-
-            int startIndex = 0;
-            int lastIndex = colors.Count;
-
+        {            
             try
             {
-                int randomValue = random.Next(startIndex, lastIndex);
+                int randomValue = random.Next(startColorIndex, lastColorIndex);
                 ConsoleColor randomColor = colors[randomValue];
 
                 Console.ForegroundColor = randomColor;   // изменение цвета текста на случайный
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[{DateTime.Now}]\tВ методе [ ChangeColor ]\t" + ex.Message);
+                Console.WriteLine($"[{DateTime.Now}]\tВ методе 'ChangeColor'\t{ex.Message}");
             }
         }
     }
